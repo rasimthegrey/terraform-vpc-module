@@ -1,8 +1,19 @@
+provider "aws" {
+  region = var.aws_region
+}
+
 module "vpc" {
   source = "./vpc"
-  name = "demo-vpc"
-  region = "us-east-1"
-  vpc_cidr = "10.0.0.0/16"
-  public_subnets = [ "10.0.1.0/24", "10.0.2.0/24" ]
-  private_subnets = ["10.0.11.0/24", "10.0.21.0/24"]
+
+  for_each = var.vpcs
+
+  vpc_cidr                    = each.value.cidr_block
+  public_subnet_count         = length(each.value.public_subnets_cidr_blocks)
+  public_subnets_cidr_blocks  = each.value.public_subnets_cidr_blocks
+  private_subnet_count        = length(each.value.private_subnets_cidr_blocks)
+  private_subnets_cidr_blocks = each.value.private_subnets_cidr_blocks
+  tags                        = each.value.tags
+  public_subnet_tags          = each.value.public_subnet_tags
+  private_subnet_tags         = each.value.private_subnet_tags
+  public_route_table_tags     = each.value.public_route_table_tags
 }

@@ -1,29 +1,50 @@
-variable "region" {
-  description = "AWS region to create resources in"
-  type = string
-  default = "us-east-1"
-}
-
 variable "vpc_cidr" {
-  description = "CIDR block for VPC"
-  type = string
-  default = "10.0.0.0/16"
+  description = "The CIDR block for the VPC"
+  type        = string
 }
 
-variable "public_subnets" {
-  description = "List of public subnet CIDR blocks"
-  type = list(string)
-  default = [ "10.0.1.0/24" ]
+variable "tags" {
+  description = "A map of tags to assign to the resource"
+  type        = map(string)
+  default     = {}
 }
 
-variable "private_subnets" {
-  description = "List of private subnet CIDR blocks"
-  type = list(string)
-  default = [ "10.0.2.0/24" ]
+variable "public_subnet_count" {
+  description = "The number of public subnets to create"
+  type        = number
+  default     = 1
 }
 
-variable "name" {
-  description = "Name prefix for resources"
-  type = string
-  default = ""
+variable "public_subnets_cidr_blocks" {
+  description = "A list of CIDR blocks for the public subnets"
+  type        = list(string)
+}
+
+variable "public_subnet_tags" {
+  description = "A map of tags to assign to the public subnets"
+  type        = map(string)
+  default     = {}
+}
+
+variable "private_subnet_count" {
+  description = "The number of private subnets to create"
+  type        = number
+  default     = 1
+}
+
+variable "private_subnets_cidr_blocks" {
+  description = "A list of CIDR blocks for the private subnets"
+  type        = list(string)
+}
+
+variable "private_subnet_tags" {
+  description = "A map of tags to assign to the private subnets"
+  type        = map(string)
+  default     = {}
+}
+
+variable "public_route_table_tags" {
+  description = "A map of tags to assign to the public route table"
+  type        = map(string)
+  default     = {}
 }
